@@ -63,7 +63,7 @@
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
       thisProduct.processOrder();
-      console.log('new Product:', thisProduct);
+      //console.log('new Product:', thisProduct);
     }
     renderInMenu() {
       const thisProduct = this;
@@ -149,14 +149,32 @@
       for (let paramId in thisProduct.data.params) {
         // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
         const param = thisProduct.data.params[paramId];
-        console.log('parampamparams:', paramId, param);
+        //console.log('parampamparams:', paramId, param);
 
         // for every option in this category
         for (let optionId in param.options) {
           // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-          console.log('options:', optionId, option);
+          //console.log(optionId, option);
+          console.log('array?:', Array.isArray(formData[paramId]));
+
+          // check if there is param with a name of paramId in formData and if it includes optionId
+          if (formData[paramId] && formData[paramId].includes(optionId)) {
+            // check if the option is not default
+            if (!option.default) {
+              // add option price to price variable
+              price += option.price;
+            }
+          } else {
+            // check if the option is default
+            if (option.default) {
+              // reduce price variable
+              price -= option.price;
+            }
+          }
+
         }
+
       }
 
       // update calculated price in the HTML
@@ -193,7 +211,8 @@
       thisApp.initData();
       thisApp.initMenu();
     },
-  };
+  }
 
   app.init();
 }
+
