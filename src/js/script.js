@@ -172,8 +172,7 @@
       }
 
       thisProduct.dom.cartButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        thisProduct.processOrder();
+        event.preventDefault();      
         thisProduct.addToCart();
       });
     }
@@ -310,7 +309,8 @@
       const thisWidget = this;
       thisWidget.getElements(element); // dla czytelność przekazujemy raz jeszcze referencje do metody getElements i tam tworzymy stałe
       thisWidget.initActions();
-      thisWidget.setValue(settings.amountWidget.defaultValue);
+      thisWidget.value = settings.amountWidget.defaultValue;
+      thisWidget.setValue(thisWidget.input.value);
       
     }
 
@@ -363,8 +363,18 @@
       // 3. Dzięki addEventListener możemy nasłuchiwać na dowolny obiekt, w naszym wypadku div z widgetem ilości w klasie Product ( thisProduct.amountWidgetElem.addEventListener('update', funtion{procesOrder();}) )który jak wychwyci event 'update' czyli przy zmianie warości inputa widgetu, to odpali ponownie metodę przeliczającą cenę produktu processOrer()
       // 4. metoda processOrder w żade sposób nie sprawdza wybranej liczby sztuk, ani tym bardziej nie mnoży przez nią ceny końcowej, dlatego musimy jeszcze przemnożyć cenę przez liczbę sztuk z input.value w processOrder przed wstawieniem nowej ceny do szablonu HTML
       
-      const event = new Event('update');
+      /*const event = new CustomEvent('update');*/      
+
+      const event = new CustomEvent('update', {
+        bubbles: true
+      });
+
       thisWidget.element.dispatchEvent(event);
+
+      // 1. Używam teraz innego rodzaju eventu którego właściwości można kontrolować. W tym wypadk włączam jego właściwość bubbles.
+      // 2. Bez bubbles event jest emitowany tylko na jednym elemencie, na tym, na którym odpaliliśmy dispatchEvent
+      // 3. Z opcją bubbles , ten event będzie nadal emitowany na tym elemencie, ale również na jego rodzicu, oraz dziadku, i tak dalej – aż do samego <body> , document i window
+      // 4. W przypadku customowych eventów bąbelkowanie musimywłączyć sami
     }
 
   }
@@ -377,9 +387,7 @@
       // tablica jest podsumowaniem zawartości koszyka i to ona trafi jako zamówienia na serwer
 
       thisCart.getElements(element);
-      thisCart.initActions();
-
-      console.log('new Cart', thisCart);
+      thisCart.initActions();   
     }
 
     getElements(element) {
@@ -389,13 +397,22 @@
       thisCart.dom.wrapper = element;
 
       thisCart.dom.toggleTrigger = element.querySelector(select.cart.toggleTrigger); 
-      thisCart.dom.productList = element.querySelector(select.cart.productList); 
+      thisCart.dom.productList = element.querySelector(select.cart.productList);  
+      thisCart.dom.deliveryFee = element.querySelector(select.cart.deliveryFee);
+      thisCart.dom.subtotalPrice = element.querySelector(select.cart.subtotalPrice);
+      thisCart.dom.totalPrice = element.querySelectorAll(select.cart.totalPrice);      
+      thisCart.dom.totalNumber = element.querySelector(select.cart.totalNumber);   
     }
 
     initActions() {
       const thisCart = this;
       thisCart.dom.toggleTrigger.addEventListener('click', function () {
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+
+      // Nasłuchujemy tutaj na listę produktów, w której umieszczamy produkty, w których znajduje się widget liczby sztuk, który generuje ten event. Dzięki właściwości bubbles "usłyszymy" go na tej liście.
+      thisCart.dom.productList.addEventListener('update', function(){
+        thisCart.update();          
       });
     }
 
@@ -404,13 +421,54 @@
       
       const gneratedHTML = templates.cartProduct(menuProduct);
       const generatedDOM = utils.createDOMFromHTML(gneratedHTML);      
-      thisCart.dom.productList.appendChild(generatedDOM);     
-      
-      thisCart.CartProduct = new CartProduct(menuProduct, generatedDOM);
-      thisCart.products.push(thisCart.CartProduct);
+      thisCart.dom.productList.appendChild(generatedDOM);        
+      thisCart.products.push(new CartProduct(menuProduct, generatedDOM));    
 
+      thisCart.update();
+      
       console.log('Array of products for serwer:', thisCart.products);
     }
+
+    update() {
+
+      const thisCart = this;
+
+      let deliveryFee = settings.cart.defaultDeliveryFee;
+
+      let totalNumber = 0;
+      let subtotalPrice = 0;
+
+      for (let product of thisCart.products) {
+
+        if (product) {
+
+          totalNumber = totalNumber + product.amount;
+          subtotalPrice = subtotalPrice + product.price;
+
+        }
+      }
+
+      thisCart.totalPrice = subtotalPrice;
+      console.log('Subotal:', thisCart.totalPrice);
+
+      if (totalNumber != 0) {
+        thisCart.totalPrice += deliveryFee;
+
+      } else {
+        deliveryFee = 0;
+      }
+
+      thisCart.dom.deliveryFee.innerHTML = deliveryFee;
+      thisCart.dom.subtotalPrice.innerHTML = subtotalPrice;
+      thisCart.dom.totalNumber.innerHTML = totalNumber;
+
+      for (let price of thisCart.dom.totalPrice) {
+
+        price.innerHTML = thisCart.totalPrice;
+      }
+    }
+
+        
   }
 
   class CartProduct{
@@ -445,15 +503,19 @@
     initAmountWidget(){
       const thisCartProduct = this;
       thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidgetElem);
-      thisCartProduct.amountWidget.setValue(thisCartProduct.amount); 
+             
       thisCartProduct.dom.amountWidgetElem.addEventListener('update', function(){
         
-        let price = thisCartProduct.priceSingle * thisCartProduct.amountWidget.value;
-        thisCartProduct.dom.price.innerHTML = price;
+        thisCartProduct.amount = thisCartProduct.amountWidget.value;
+
+        thisCartProduct.price = thisCartProduct.amount * thisCartProduct.priceSingle;
+
+        thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
         
       });
       
     } 
+    
   }
 
   const app = {
