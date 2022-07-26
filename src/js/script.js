@@ -181,8 +181,7 @@
       const thisProduct = this;
 
       // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
-      const formData = utils.serializeFormToObject(thisProduct.dom.form);
-      //console.log('formData array:', formData);
+      const formData = utils.serializeFormToObject(thisProduct.dom.form);      
 
       // set price to default price
       let price = thisProduct.data.price;
@@ -414,6 +413,10 @@
       thisCart.dom.productList.addEventListener('update', function(){
         thisCart.update();          
       });
+
+      thisCart.dom.productList.addEventListener('remove', function(event){
+        thisCart.remove(event.detail.cartProduct);
+      });
     }
 
     add(menuProduct) {
@@ -437,20 +440,19 @@
 
       let totalNumber = 0;
       let subtotalPrice = 0;
-
+      
       for (let product of thisCart.products) {
 
         if (product) {
 
-          totalNumber = totalNumber + product.amount;
+          totalNumber = totalNumber + product.amount;          
           subtotalPrice = subtotalPrice + product.price;
-
+          
         }
       }
-
+      
       thisCart.totalPrice = subtotalPrice;
-      console.log('Subotal:', thisCart.totalPrice);
-
+ 
       if (totalNumber != 0) {
         thisCart.totalPrice += deliveryFee;
 
@@ -466,9 +468,17 @@
 
         price.innerHTML = thisCart.totalPrice;
       }
-    }
+    }  
+    
+    remove(productToremove){
+      const thisCart = this;
 
-        
+      productToremove.dom.wrapper.remove();    
+   
+      thisCart.products.splice(thisCart.products.indexOf(productToremove), 1);          
+
+      thisCart.update();
+    }
   }
 
   class CartProduct{
@@ -476,7 +486,6 @@
       const thisCartProduct = this;
       // menuProduct - przyjmuje referencję do obiektu podsumowania productSummary z prepareCartProduct()
       // element - przyjmuje referencje do do utworzonego dla tego produktu elementu HTML-u ( generatedDOM ).
-      console.log('thisCartProduct:', thisCartProduct);
 
       thisCartProduct.id = menuProduct.id;
       thisCartProduct.name = menuProduct.name;
@@ -486,7 +495,8 @@
       thisCartProduct.params = menuProduct.params;
       
       thisCartProduct.getElements(element);
-      thisCartProduct.initAmountWidget();      
+      thisCartProduct.initAmountWidget();
+      thisCartProduct.initActions();      
     }
     
     getElements(element){
@@ -515,6 +525,32 @@
       });
       
     } 
+
+    remove(){
+      const thisCartProduct = this;
+
+      const event = new CustomEvent('remove', {
+        bubbles: true,
+        detail: {
+          cartProduct: thisCartProduct,
+        },
+      });
+
+      thisCartProduct.dom.wrapper.dispatchEvent(event);
+    }
+
+    initActions(){
+      const thisCartProduct = this;
+
+      thisCartProduct.dom.edit.addEventListener('click', function(event) {
+        event.preventDefault();
+      });
+
+      thisCartProduct.dom.remove.addEventListener('click', function(event){
+        event.preventDefault();
+        thisCartProduct.remove();
+      });
+    }
     
   }
 
