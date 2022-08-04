@@ -119,7 +119,7 @@ const app = {
     const thisApp = this;
 
     const bookingWrapper = document.querySelector(select.containerOf.booking);
-    thisApp.booking = new Booking (bookingWrapper);
+    thisApp.booking = new Booking(bookingWrapper);
 
   },
 
