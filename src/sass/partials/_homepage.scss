@@ -16,75 +16,81 @@ section {
   grid-template-rows: 120px 120px repeat(2, 1fr);
   grid-gap: 10px;
   
-  & p{        
-      color: $color-light;
-      font-size: 30px;     
-      text-align: center;  
-      text-transform: uppercase;
-      font-family: $font-header;
-      position: relative;  
-      margin-bottom: 0; 
+  p{        
+    color: $color-light;
+    font-size: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: $font-header;
+    position: relative;
+    margin-bottom: 0;
         
-      & span {
-          font-size: 15px;
-          position: absolute;
-          display: block;            
-          left: calc(100% - 380px);
-          font-family: Arial, Helvetica, sans-serif;
-        }
-    }  
-  & .order-box{
-      background-image: url("../../images/homepage/pizza-1.jpg");
-      background-size: cover;
-      grid-row: 1 / 2;
-      border-radius: 10px;
+    span {
+      font-size: 15px;
+      position: absolute;
+      display: block;
+      left: calc(100% - 380px);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  }  
+
+  .order-box{
+    background-image: url("../../images/homepage/pizza-1.jpg");
+    background-size: cover;
+    grid-row: 1 / 2;
+    border-radius: 10px;
       
-      &:hover{
-        p:nth-child(2){
-          display: block;
-          transform: translateY(-20px);
-        }
-        p{
-          transform: translateY(-20px);
-          transition: 1s;
-        }
+    &:hover{
+      p:nth-child(2){
+        display: block;
+        transform: translateY(-20px);
+      }
+  
+      p{
+        transform: translateY(-20px);
+        transition: 1s;
       }
     }
-  & .booking-box{
-      background-image: url("../../images/homepage/pizza-2.jpg"); 
-      background-size: cover;
-      grid-row: 1 / 2;
-      border-radius: 10px;   
+
+  }
+
+  .booking-box{
+    background-image: url("../../images/homepage/pizza-2.jpg");
+    background-size: cover;
+    grid-row: 1 / 2;
+    border-radius: 10px;
       
-      &:hover{
-        p:nth-child(2){
-          display: block;
-          transform: translateY(-20px);
-        }
-        p{
-          transform: translateY(-20px);
-          transition: 1s;
-        }
+    &:hover{
+      p:nth-child(2){
+        display: block;
+        transform: translateY(-20px);
+      }
+
+      p{
+        transform: translateY(-20px);
+        transition: 1s;
       }
     }
+  }
   
-  & .opening-hours-box{
-      grid-column: 1 / -1;
-      grid-row: 2 / 3;           
-      background-color: $color-main; 
-      border-radius: 10px;      
-    }
+  .opening-hours-box{
+    
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
+    background-color: $color-main;
+    border-radius: 10px;      
+  }
   
-  & p:nth-child(2){
-      font-size: 12px;
-      color: $color-light;
-      text-transform: none;
-      display: none;
-    }    
+  p:nth-child(2){
+    font-size: 12px;
+    color: $color-light;
+    text-transform: none;
+    display: none;
+  }    
 }
 
 .main-carousel{
-   margin: 50px 0;  
+  margin: 50px 0;  
 }
 
 .flickity-button{
@@ -92,18 +98,17 @@ section {
 }
 
 .carousel-cell {
-  display: flex;  
-  
+  display: flex;   
 }
 
 .image-box{
-    height: 200px;
-    padding: 5px;
+  height: 200px;
+  padding: 5px;
 
-  & img{
+  img{
     width: 100%;
     height: 100%;
-    border-radius: 10px;  
+    border-radius: 10px;
     object-fit: cover;
   }
 }
@@ -111,14 +116,14 @@ section {
 .text-box{
   padding-left: 20px;
   width: 100%;
-  height: 100%;  
+  height: 100%;
     
-  & h3{
-   text-transform: uppercase;
-   margin: 0;        
+  h3{
+    text-transform: uppercase;
+    margin: 0;
   }
 
-  & p {
+  p {
     font-size: 14px;
     display: block; 
   }
@@ -127,36 +132,67 @@ section {
 .pizzeria-photos{
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;   
+  justify-content: space-around;
   margin: 100px 0;
 
-  & .picture-box{
-   width: 200px;
-   height: 200px;        
+  .picture-box{
+    position: relative;
+    width: 200px;
+    height: 200px;
        
-   & img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    padding: 5px;
-    border-radius: 10px;  
-   }    
+    img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      padding: 5px;
+      border-radius: 10px;  
+    }  
+  }  
+}
+
+.picture-box{
+  position: relative;
+}
+
+.picture-icon{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  display: none;
+
+  i{
+    padding: 8px;
+  }
+}
+
+.picture-box:hover{
+  img{
+    filter: brightness(0.3);
+  }  
+
+  .picture-icon{
+    display: block;
+    color: $color-light; 
+  }  
+
+  i:first-child:hover{
+    color: $color-main;
+    cursor: pointer;
+    transform: scale(1.5);
+    transition: all .2s ease-in-out;   
+  }
+
+  i:nth-child(2):hover{
+    color: #3393FF;
+    cursor: pointer;
   }  
 }
 
 a {
-    display: block;
-    padding: 5px;
-    text-decoration: none;
-    color: $color-main;
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+  color: $color-main;
 }
-
-
-
-
-
-
-
-
-
-

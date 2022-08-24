@@ -27,7 +27,7 @@ class HomePage{
     // options
       cellAlign: 'left',
       contain: true,
-      //autoPlay: true
+      autoPlay: true
     });
   }
 }
