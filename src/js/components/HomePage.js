@@ -15,7 +15,7 @@ class HomePage{
     thisHome.dom = {
       wrapper: element
     };
-    
+
     thisHome.dom.wrapper.innerHTML = generatedHTML;
   }
 
@@ -27,7 +27,7 @@ class HomePage{
     // options
       cellAlign: 'left',
       contain: true,
-      autoPlay: true
+      //autoPlay: true
     });
   }
 }

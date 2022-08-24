@@ -17,7 +17,7 @@ section {
   grid-gap: 10px;
   
   & p{        
-      color: white;
+      color: $color-light;
       font-size: 30px;     
       text-align: center;  
       text-transform: uppercase;
@@ -37,6 +37,7 @@ section {
       background-image: url("../../images/homepage/pizza-1.jpg");
       background-size: cover;
       grid-row: 1 / 2;
+      border-radius: 10px;
       
       &:hover{
         p:nth-child(2){
@@ -52,7 +53,8 @@ section {
   & .booking-box{
       background-image: url("../../images/homepage/pizza-2.jpg"); 
       background-size: cover;
-      grid-row: 1 / 2;   
+      grid-row: 1 / 2;
+      border-radius: 10px;   
       
       &:hover{
         p:nth-child(2){
@@ -69,19 +71,20 @@ section {
   & .opening-hours-box{
       grid-column: 1 / -1;
       grid-row: 2 / 3;           
-      background-color: $color-main;       
+      background-color: $color-main; 
+      border-radius: 10px;      
     }
   
   & p:nth-child(2){
       font-size: 12px;
-      color: white;
+      color: $color-light;
       text-transform: none;
       display: none;
     }    
 }
 
 .main-carousel{
-   margin-top: 50px; 
+   margin: 50px 0;  
 }
 
 .flickity-button{
@@ -90,29 +93,62 @@ section {
 
 .carousel-cell {
   display: flex;  
-  width: 100%; /* full width */
-  height: 160px; /* height of carousel */
-  margin-right: 10px;
+  
 }
 
 .image-box{
+    height: 200px;
+    padding: 5px;
 
   & img{
-    width: 250px;  
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;  
+    object-fit: cover;
   }
 }
 
 .text-box{
-    padding-left: 15px;  
+  padding-left: 20px;
+  width: 100%;
+  height: 100%;  
     
-    & h1{
-      text-transform: uppercase;
-      margin: 0;        
-    }
+  & h3{
+   text-transform: uppercase;
+   margin: 0;        
+  }
 
-    & p {
-       font-size: 12px;   
-    }
+  & p {
+    font-size: 14px;
+    display: block; 
+  }
+}
+
+.pizzeria-photos{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;   
+  margin: 100px 0;
+
+  & .picture-box{
+   width: 200px;
+   height: 200px;        
+       
+   & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    padding: 5px;
+    border-radius: 10px;  
+   }    
+  }  
+}
+
+a {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: $color-main;
 }
 
 
