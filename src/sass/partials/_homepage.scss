@@ -39,6 +39,7 @@ section {
     background-size: cover;
     grid-row: 1 / 2;
     border-radius: 10px;
+    cursor: pointer;
       
     &:hover{
       p:nth-child(2){
@@ -59,6 +60,7 @@ section {
     background-size: cover;
     grid-row: 1 / 2;
     border-radius: 10px;
+    cursor: pointer;
       
     &:hover{
       p:nth-child(2){

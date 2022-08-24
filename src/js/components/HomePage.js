@@ -1,4 +1,5 @@
 import { templates } from '../settings.js';
+import app from '../app.js';
 
 class HomePage{
   constructor(element){
@@ -6,6 +7,7 @@ class HomePage{
 
     thisHome.render(element);
     thisHome.flickity();
+    thisHome.initAction();
   }
 
   render(element){
@@ -13,10 +15,12 @@ class HomePage{
 
     const generatedHTML = templates.homePage(element);
     thisHome.dom = {
-      wrapper: element
+      wrapper: element,      
     };
 
     thisHome.dom.wrapper.innerHTML = generatedHTML;
+
+    thisHome.dom.boxLinksWrapper = element.querySelector('.image-links-wrapper').children;
   }
 
   flickity(){
@@ -29,6 +33,19 @@ class HomePage{
       contain: true,
       autoPlay: true
     });
+  }
+
+  initAction(){
+    const thisHome = this;
+
+    for(let boxLink of thisHome.dom.boxLinksWrapper) {
+      
+      boxLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        const boxLinkId = boxLink.getAttribute('data-link');
+        app.activatePage(boxLinkId);
+      });
+    }
   }
 }
 
