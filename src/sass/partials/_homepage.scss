@@ -1,0 +1,84 @@
+.home-wrapper {
+  margin: ($base-size * 3.5) auto;
+  padding: ($base-size * 6) ($base-size * 4);
+  background: $color-light;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;   
+}
+  
+section {
+  padding: ($base-size * 6) 0;
+}
+  
+.image-links-wrapper {    
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 120px 120px repeat(2, 1fr);
+  grid-gap: 10px;
+  
+  & p{        
+      color: white;
+      font-size: 30px;     
+      text-align: center;  
+      text-transform: uppercase;
+      font-family: $font-header;
+      position: relative;  
+      margin-bottom: 0; 
+        
+      & span {
+          font-size: 15px;
+          position: absolute;
+          display: block;            
+          left: calc(100% - 380px);
+          font-family: Arial, Helvetica, sans-serif;
+        }
+    }  
+  & .order-box{
+      background-image: url("../../images/homepage/pizza-1.jpg");
+      background-size: cover;
+      grid-row: 1 / 2;
+      
+      &:hover{
+        p:nth-child(2){
+          display: block;
+          transform: translateY(-20px);
+        }
+        p{
+          transform: translateY(-20px);
+          transition: 1s;
+        }
+      }
+    }
+  & .booking-box{
+      background-image: url("../../images/homepage/pizza-2.jpg"); 
+      background-size: cover;
+      grid-row: 1 / 2;   
+      
+      &:hover{
+        p:nth-child(2){
+          display: block;
+          transform: translateY(-20px);
+        }
+        p{
+          transform: translateY(-20px);
+          transition: 1s;
+        }
+      }
+    }
+  
+  & .opening-hours-box{
+      grid-column: 1 / -1;
+      grid-row: 2 / 3;           
+      background-color: $color-main;       
+    }
+  
+  & p:nth-child(2){
+      font-size: 12px;
+      color: white;
+      text-transform: none;
+      display: none;
+    }    
+}
+
+
+

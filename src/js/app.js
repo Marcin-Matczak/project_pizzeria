@@ -2,6 +2,8 @@ import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import HomePage from './components/HomePage.js';
+
 
 const app = {
   initPages: function(){
@@ -102,6 +104,14 @@ const app = {
       });
   },
 
+  initHomePage: function(){
+    const thisApp = this;
+
+    const homeWrapper = document.querySelector(select.containerOf.homepage);
+    thisApp.homePage = new HomePage(homeWrapper);
+    
+  },
+
   initCart: function () {
     const thisApp = this;
 
@@ -126,7 +136,8 @@ const app = {
   init: function () {
     const thisApp = this;
 
-    thisApp.initPages();    
+    thisApp.initPages();
+    thisApp.initHomePage();    
     thisApp.initData();
     thisApp.initCart();
     thisApp.initBooking();

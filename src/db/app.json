@@ -258,15 +258,5 @@
       }
    ],
 
-   "bookings": [
-      {
-         "id": 1,
-         "date": "2022-08-07",
-         "hour": "18:00",
-         "table": 1,         
-         "duration": 4,
-         "ppl": 4,
-         "starters": ["lemonWater"]
-      }      
-   ]   
+   "bookings": []   
 }

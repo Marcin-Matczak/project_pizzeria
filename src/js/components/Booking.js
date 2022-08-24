@@ -170,7 +170,7 @@ class Booking {
       body: JSON.stringify(payload),
     };
 
-    fetch(url, options);    
+    fetch(url, options);  
   }
 
   // zapisuje informacje w thisBooking.booked
